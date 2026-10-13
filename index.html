@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problem Solving Sessions</title>
+  <meta name="description" content="Weekly problem solving sessions covering programming fundamentals, data structures, and algorithms.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0f1117;
+      --bg-card: #181b23;
+      --bg-card-hover: #1e222c;
+      --bg-badge: #262a36;
+      --text-primary: #e8e9ed;
+      --text-secondary: #9196a1;
+      --text-muted: #5d6270;
+      --accent: #6c63ff;
+      --accent-dim: rgba(108, 99, 255, 0.12);
+      --accent-glow: rgba(108, 99, 255, 0.25);
+      --border: #262a36;
+      --border-hover: #363b4a;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Space Grotesk', 'IBM Plex Sans Arabic', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ─── Header ─── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 17, 23, 0.85);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #6c63ff 0%, #4f46e5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .header-link:hover {
+      color: var(--text-primary);
+      background: var(--bg-badge);
+    }
+
+    .header-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 72px 24px 48px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: var(--accent-dim);
+      color: #8b83ff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #6c63ff;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    /* ─── Sessions Grid ─── */
+    .sessions-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .session-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .sessions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    /* ─── Session Card ─── */
+    .session-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .session-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2), 0 0 0 1px var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .session-card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-top {
+      position: relative;
+      padding: 24px 24px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .card-week {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      color: #8b83ff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .card-status.available {
+      background: rgba(52, 211, 153, 0.1);
+      color: #34d399;
+    }
+
+    .card-status.coming-soon {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+    }
+
+    .card-status::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .card-body {
+      padding: 18px 24px 24px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    .card-description {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--bg-badge);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .card-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent-dim);
+      color: #8b83ff;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity var(--transition), transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .card-arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── Footer ─── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .footer-inner a:hover {
+      color: var(--text-primary);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      .hero {
+        padding: 48px 20px 32px;
+      }
+
+      .sessions-section {
+        padding: 0 20px 60px;
+      }
+
+      .sessions-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header-link span {
+        display: none;
+      }
+    }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="./" class="logo">
+        <span class="logo-icon">PS</span>
+        <span>Problem Solving Sessions</span>
+      </a>
+      <div class="header-links">
+        <a href="https://github.com/mohabnaser/problem-solving-sessions" class="header-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">Level 0 — Foundations</div>
+    <h1>Problem Solving<br>Sessions</h1>
+    <p>Weekly sessions covering programming fundamentals — from data types and operators to algorithms and data structures.</p>
+  </section>
+
+  <!-- Sessions -->
+  <section class="sessions-section">
+    <div class="section-header">
+      <span class="section-title">All Sessions</span>
+      <span class="session-count" id="session-count"></span>
+    </div>
+    <div class="sessions-grid" id="sessions-grid"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      Built by <a href="https://github.com/mohabnaser" target="_blank" rel="noopener">mohabnaser</a>
+    </div>
+  </footer>
+
+  <script>
+    // ─── Sessions Data ───
+    // Add more sessions here as you create them.
+    // Set `file` to the HTML filename, or leave it null for upcoming sessions.
+    const sessions = [
+      {
+        week: 1,
+        title: "Data Types & Operators",
+        description: "How code thinks about data — understanding primitive types, type conversions, and working with arithmetic, comparison, and logical operators.",
+        tags: ["int", "float", "string", "bool", "operators"],
+        file: "how-code-thinks-about-data.html",
+        status: "available"
+      },
+      // ── Add more sessions below ──
+      // {
+      //   week: 2,
+      //   title: "Control Flow",
+      //   description: "Conditionals, loops, and how programs make decisions.",
+      //   tags: ["if", "else", "for", "while"],
+      //   file: null,
+      //   status: "coming-soon"
+      // },
+    ];
+
+    // ─── Render ───
+    const grid = document.getElementById("sessions-grid");
+    const countEl = document.getElementById("session-count");
+
+    const availableCount = sessions.filter(s => s.status === "available").length;
+    countEl.textContent = `${availableCount} of ${sessions.length} available`;
+
+    sessions.forEach(session => {
+      const isAvailable = session.status === "available" && session.file;
+      const card = document.createElement("a");
+      card.className = "session-card";
+      card.id = `session-week-${session.week}`;
+
+      if (isAvailable) {
+        card.href = session.file;
+      } else {
+        card.style.cursor = "default";
+        card.addEventListener("click", e => e.preventDefault());
+      }
+
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="card-week">W${session.week}</span>
+          <span class="card-status ${session.status}">
+            ${session.status === "available" ? "Available" : "Coming Soon"}
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${session.title}</div>
+          <div class="card-description">${session.description}</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              ${session.tags.map(t => `<span class="card-tag">${t}</span>`).join("")}
+            </div>
+            ${isAvailable ? `
+              <span class="card-arrow">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3l5 5-5 5"/>
+                </svg>
+              </span>
+            ` : ""}
+          </div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
